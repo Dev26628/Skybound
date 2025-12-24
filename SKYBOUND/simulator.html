@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skybound | Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="simulator.css">
+</head>
+<body>
+    <div id="page-transition"></div>
+
+
+<header>
+  <div class="logo">SKYBOUND</div>
+  <nav>
+    <a href="index.html">Experience</a>
+    <a href="simulator.html" class="active">Simulator</a>
+    <a href="adventures.html">Adventures</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<section class="sim-hero" id="deviceSelection">
+  <h1>Flight Simulator</h1>
+  <p>Powered by GeoFS. Optimized for your device.<br>Choose your setup to continue.</p>
+
+  <div class="device-select">
+    <button data-device="pc">PC / Laptop</button>
+    <button data-device="mobile">Mobile / Tablet</button>
+  </div>
+
+  <!-- Controls button -->
+  <button id="controlsBtn" class="controls-btn">Understand the Controls</button>
+
+  <!-- Controls table container -->
+  <div id="controlsTableContainer" class="controls-table-container hidden">
+    <table class="controls-table">
+      <thead>
+        <tr>
+          <th>PC / Laptop</th>
+          <th>Mobile / Tablet</th>
+          <th>More Info</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="key">Arrow Keys</span>: Pitch up/down, Bank left/right</td>
+          <td><span class="key">Swipe</span>: Move</td>
+          <td rowspan="4">
+            To know more controls:<br>
+            - Official GeoFS website<br>
+            - Or search on Google<br>
+            For PC: Open the game → Options → Controls → Keyboard → Configure
+          </td>
+        </tr>
+        <tr>
+          <td><span class="key">+ / -</span>: Toggle Throttle</td>
+          <td><span class="key">Touch Button</span>: Throttle</td>
+        </tr>
+        <tr>
+          <td><span class="key">Brakes</span>: Have the button on screen</td>
+          <td><span class="key">Brakes</span>: Have the button on screen</td>
+        </tr>
+        <tr>
+          <td><span class="key">C</span>: Camera Change</td>
+          <td><span class="key">Tap</span>: Camera Change</td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="closeTableBtn" class="controls-btn">Close Table</button>
+  </div>
+</section>
+
+<!-- Feedback modal -->
+<section class="feedback hidden" id="feedbackSection">
+  <h2>How was your experience?</h2>
+  <div class="stars">
+    <span data-value="1">★</span>
+    <span data-value="2">★</span>
+    <span data-value="3">★</span>
+    <span data-value="4">★</span>
+    <span data-value="5">★</span>
+  </div>
+  <textarea id="feedbackText" placeholder="Leave a comment (optional)"></textarea>
+  <button id="submitFeedback" disabled>Submit Feedback</button>
+</section>
+
+<!-- Thank you screen -->
+<section class="thanks hidden" id="thanksSection">
+  <h1>Thanks for your feedback!</h1>
+  <p>Redirecting to Experience page...</p>
+</section>
+
+<script>
+const deviceButtons = document.querySelectorAll(".device-select button");
+const hero = document.getElementById("deviceSelection");
+const feedbackSection = document.getElementById("feedbackSection");
+const thanksSection = document.getElementById("thanksSection");
+const stars = document.querySelectorAll(".stars span");
+const submitBtn = document.getElementById("submitFeedback");
+
+let rating = 0;
+let geofsWindow = null;
+let checkGeoFS = null;
+
+// Device selection logic
+deviceButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const device = btn.dataset.device;
+    hero.classList.add("fade-out");
+
+    setTimeout(() => {
+      hero.style.display = "block";
+
+      const width = window.screen.availWidth;
+      const height = window.screen.availHeight;
+      const features = `width=${width},height=${height},top=0,left=0,scrollbars=no,resizable=yes`;
+
+      if (device === "mobile") {
+        geofsWindow = window.open(
+          "https://www.geo-fs.com/geofs.php?controls=touch",
+          "GeoFS",
+          features
+        );
+      } else {
+        geofsWindow = window.open(
+          "https://www.geo-fs.com/geofs.php",
+          "GeoFS",
+          features
+        );
+      }
+
+      // Check if GeoFS tab is closed
+      checkGeoFS = setInterval(() => {
+        if (geofsWindow && geofsWindow.closed) {
+          clearInterval(checkGeoFS);
+          showGeoFSClosedModal();
+        }
+      }, 500);
+    }, 600);
+  });
+});
+
+// GeoFS closed modal
+function showGeoFSClosedModal() {
+  if (!document.querySelector(".geofs-closed-modal")) {
+    const modal = document.createElement("div");
+    modal.className = "geofs-closed-modal";
+
+    modal.innerHTML = `
+      <p>GeoFS tab is closed by you. Please navigate back to the simulator or other tabs.</p>
+      <button id="goToFeedback">Rate Us</button>
+    `;
+
+    document.body.appendChild(modal);
+
+    const goBtn = document.getElementById("goToFeedback");
+    goBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      feedbackSection.scrollIntoView({ behavior: "smooth" });
+    });
+
+    feedbackSection.classList.remove("hidden");
+  }
+}
+
+// Star rating logic
+stars.forEach(star => {
+  star.addEventListener("click", () => {
+    rating = parseInt(star.dataset.value);
+    stars.forEach(s => {
+      s.classList.toggle("active", parseInt(s.dataset.value) <= rating);
+    });
+    submitBtn.disabled = rating === 0;
+  });
+});
+
+// Submit feedback
+submitBtn.addEventListener("click", () => {
+  feedbackSection.classList.add("fade-out");
+
+  setTimeout(() => {
+    feedbackSection.style.display = "none";
+    feedbackSection.classList.remove("fade-out");
+
+    thanksSection.classList.remove("hidden");
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 3000);
+  }, 400);
+});
+
+// Controls table toggle with animations
+const controlsBtn = document.getElementById("controlsBtn");
+const controlsTableContainer = document.getElementById("controlsTableContainer");
+const closeTableBtn = document.getElementById("closeTableBtn");
+
+controlsBtn.addEventListener("click", () => {
+  controlsBtn.classList.add("fade-out");
+  setTimeout(() => {
+    controlsBtn.classList.add("hidden");
+    controlsBtn.classList.remove("fade-out");
+    controlsTableContainer.classList.remove("hidden");
+    controlsTableContainer.classList.add("fade-in");
+  }, 300);
+});
+
+closeTableBtn.addEventListener("click", () => {
+  controlsTableContainer.classList.remove("fade-in");
+  controlsTableContainer.classList.add("fade-out");
+  setTimeout(() => {
+    controlsTableContainer.classList.add("hidden");
+    controlsTableContainer.classList.remove("fade-out");
+    controlsBtn.classList.remove("hidden");
+    controlsBtn.classList.add("fade-in");
+    setTimeout(() => controlsBtn.classList.remove("fade-in"), 300);
+  }, 300);
+});
+</script>
+<script src="page-transition.js"></script>
+<script src="master.js"></script>
+
+
+</body>
+</html>
