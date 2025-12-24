@@ -1,0 +1,530 @@
+:root{
+  --bg:#050b14;
+  --panel:#0b1626;
+  --accent:#4fc3ff;
+  --accent-2:#6effc3;
+  --text:#e8f0ff;
+  --muted:#9fb2d1;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif;}
+body{background:radial-gradient(circle at top,#0c1a33,var(--bg) 60%);color:var(--text);min-height:100vh;}
+
+header{position:fixed;top:0;left:0;width:100%;padding:22px 40px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(14px);background:rgba(5,11,20,0.55);z-index:10;}
+.logo{font-size:22px;font-weight:700;color:var(--accent);}
+nav a{margin-left:28px;text-decoration:none;color:var(--muted);}
+nav a.active,nav a:hover{color:var(--text);}
+main{padding-top:140px;display:flex;flex-direction:column;gap:60px;}
+
+/* Section Headers */
+section h2{text-align:center;margin-bottom:24px;font-size:32px;color:var(--accent);animation: fadeIn 0.8s ease;}
+
+/* 1. Mini Aircraft Showcase */
+.aircraft-grid{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
+.aircraft-card{background:var(--panel);padding:16px;border-radius:16px;width:220px;text-align:center;transition:.35s;cursor:pointer;box-shadow:0 10px 25px rgba(79,195,255,.2);}
+.aircraft-card img{border-radius:12px;width:100%;height:auto;}
+.aircraft-card:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 20px 50px rgba(79,195,255,.4);}
+
+/* 2. Flight Logs / Timeline */
+.timeline{position:relative;max-width:800px;margin:0 auto;padding-left:40px;}
+.event{padding:20px 0;position:relative;}
+.event .circle{position:absolute;left:-20px;top:0;width:16px;height:16px;background:var(--accent-2);border-radius:50%;animation:pulse 2s infinite;}
+.event .content{background:var(--panel);padding:12px;border-radius:12px;transition:.35s;box-shadow:0 8px 20px rgba(0,0,0,.3);}
+.event .content:hover{transform:scale(1.04);}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.4);}}
+
+/* 3. Plane Quiz */
+.quiz-cards{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
+.quiz-card{width:180px;height:120px;perspective:1000px;cursor:pointer;}
+.quiz-card .front, .quiz-card .back{width:100%;height:100%;background:var(--panel);border-radius:16px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;transition:transform .6s;}
+.quiz-card .back{transform:rotateY(180deg);}
+.quiz-card:hover .front{transform:rotateY(180deg);}
+.quiz-card:hover .back{transform:rotateY(0);}
+
+/* 4. Airport Map */
+.map-container{position:relative;max-width:900px;margin:0 auto;}
+.map-container img{width:100%;border-radius:16px;}
+.airport{position:absolute;font-size:20px;transition:.35s;}
+.airport:hover{transform:translateY(-6px) scale(1.2);}
+
+/* Animations */
+@keyframes fadeIn{0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
+
+/* Footer */
+footer{background:var(--panel);padding:40px 20px;text-align:center;color:var(--muted);}
+.footer-content{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+.footer-logo{font-size:24px;font-weight:700;color:var(--accent);}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.footer-links a{text-decoration:none;color:var(--muted);transition:.3s;}
+.footer-links a:hover{color:var(--accent);}
+.social-icons{display:flex;justify-content:center;gap:15px;font-size:20px;}
+.social-icons a{text-decoration:none;color:var(--muted);transition:.3s;}
+.social-icons a:hover{color:var(--accent) rotate(15deg);}
+.footer-copy{font-size:14px;color:var(--muted);margin-top:10px;}
+.quiz-card .front img {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+.airport-cards{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.airport-card{
+  width:220px;
+  height:140px;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+.airport-card .front,
+.airport-card .back{
+  width:100%;
+  height:100%;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  backface-visibility:hidden;
+  transition:transform .6s;
+  background:var(--panel);
+  color:var(--text);
+  padding:8px;
+  box-sizing:border-box;
+}
+
+.airport-card .front img{
+  width:100%;
+  height:100%;
+  border-radius:16px;
+  object-fit:cover;
+}
+
+.airport-card .back{
+  transform:rotateY(180deg);
+  flex-direction:column;
+  text-align:center;
+  font-size:14px;
+  gap:6px;
+}
+
+.airport-card:hover .front{
+  transform:rotateY(180deg);
+}
+
+.airport-card:hover .back{
+  transform:rotateY(0);
+}
+.quiz-hint{
+  margin-top:6px;
+  text-align:center;
+  font-size:14px;
+  color:#9bb7ff;
+  opacity:.85;
+  animation:hintPulse 2s infinite;
+}
+
+@keyframes hintPulse{
+  0%,100%{opacity:.6}
+  50%{opacity:1}
+}
+/* Reduce space below heading */
+.plane-quiz h2{
+  margin-bottom:4px;
+}
+
+/* Keep hint closer to heading */
+.quiz-hint{
+  margin-top:2px;
+  margin-bottom:14px;
+}
+
+/* Bring cards closer to each other */
+.quiz-cards{
+  display:flex;
+  justify-content:center;
+  gap:16px; /* reduced gap */
+}
+
+/* Optional: slightly tighter cards */
+.quiz-card{
+  width:220px;
+}
+/* Airport section spacing */
+.airport-map h2{
+  margin-bottom:10px;
+}
+
+/* Cards container */
+.airport-cards{
+  display:flex;
+  justify-content:center;
+  gap:16px; /* close spacing */
+  flex-wrap:wrap;
+}
+
+/* Card base */
+.airport-card{
+  width:230px;
+  height:160px;
+  perspective:900px;
+  cursor:pointer;
+}
+
+/* Inner faces */
+.airport-card .front,
+.airport-card .back{
+  width:100%;
+  height:100%;
+  position:absolute;
+  backface-visibility:hidden;
+  border-radius:14px;
+  overflow:hidden;
+  transition:transform .6s ease;
+}
+
+/* Front image */
+.airport-card .front img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Back face */
+.airport-card .back{
+  background:linear-gradient(135deg,#4fc3ff,#6effc3);
+  color:#00131f;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transform:rotateY(180deg);
+  text-align:center;
+}
+
+/* Flip effect */
+.airport-card:hover .front{
+  transform:rotateY(180deg);
+}
+
+.airport-card:hover .back{
+  transform:rotateY(360deg);
+}
+
+/* Text styling */
+.airport-card h3{
+  margin-bottom:4px;
+  font-size:18px;
+}
+
+.airport-card p{
+  font-size:14px;
+  opacity:.85;
+}
+/* ===== GLOBAL NAVBAR (DO NOT MODIFY) ===== */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  padding:22px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  backdrop-filter:blur(14px);
+  background:rgba(5,11,20,0.55);
+  z-index:1000;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--accent);
+}
+
+nav{
+  display:flex;
+  gap:28px;
+}
+
+nav a{
+  position:relative;
+  text-decoration:none;
+  font-size:15px;
+  color:var(--muted);
+  padding-bottom:6px;
+  transition:color .3s ease;
+}
+
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width .35s ease;
+  border-radius:4px;
+}
+
+nav a:hover{
+  color:var(--text);
+}
+
+nav a:hover::after{
+  width:100%;
+}
+
+nav a.active{
+  color:var(--text);
+}
+
+nav a.active::after{
+  width:100%;
+}
+
+/* Mobile */
+@media(max-width:900px){
+  nav{
+    display:none;
+  }
+}
+/* ===== PAGE TRANSITION OVERLAY ===== */
+#page-transition{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at top,#0c1a33,#050b14 60%);
+  z-index:9999;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(1.05);
+  transition:opacity .6s ease, transform .6s ease;
+}
+
+/* When active */
+#page-transition.active{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+}
+/* ===== MASTER CSS ===== */
+:root {
+  --bg:#0b1020;
+  --panel:#141c3a;
+  --accent:#4fc3ff;
+  --accent-2:#6effc3;
+  --text:#e8f0ff;
+  --muted:#9fb2d1;
+}
+
+* {margin:0; padding:0; box-sizing:border-box; font-family:Inter,Arial,sans-serif;}
+body {background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;}
+
+/* HEADER */
+header {
+  position: fixed; top:0; width:100%; height:70px;
+  background: rgba(10,15,35,0.95); display:flex;
+  align-items:center; justify-content:space-between; padding:0 5%;
+  z-index:1000; backdrop-filter: blur(10px);
+}
+.logo {font-size:22px; font-weight:700; letter-spacing:1px;}
+nav {display:flex; gap:20px; flex-wrap:wrap;}
+nav button {
+  background:none; border:none; color:#fff; font-size:15px;
+  cursor:pointer; position:relative; padding:5px 0; min-width:80px;
+}
+nav button::after {
+  content:""; position:absolute; left:0; bottom:-5px; width:0; height:2px;
+  background:var(--accent); transition:width 0.3s ease;
+}
+nav button:hover::after, nav button.active::after {width:100%;}
+
+/* MAIN CONTENT */
+main {padding-top:90px;}
+.page {display:none; min-height:calc(100vh - 90px); padding:5% 5%; animation:pageIn 0.45s ease;}
+.page.active {display:block;}
+@keyframes pageIn {from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);}}
+
+/* HEADINGS AND PARAGRAPHS */
+h1 {font-size: calc(24px + 1.5vw); margin-bottom:15px;}
+h2 {font-size: calc(20px + 1vw); margin-bottom:12px;}
+p {max-width:900px; opacity:0.85; line-height:1.6; font-size:calc(14px + 0.5vw);}
+
+/* GRID CARDS */
+.grid-container, .quiz-cards, .airport-cards {display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-top:20px;}
+.card, .quiz-card, .airport-card {background: rgba(20,25,45,0.85); padding:15px; border-radius:12px; text-align:center; transition: transform 0.3s ease, box-shadow 0.3s ease; perspective:1000px; cursor:pointer;}
+.card:hover, .quiz-card:hover, .airport-card:hover {transform:translateY(-5px); box-shadow:0 10px 30px rgba(79,195,255,0.5);}
+.card img, .quiz-card .front img, .airport-card .front img {width:100%; border-radius:12px; height:auto;}
+
+/* QUIZ FLIP */
+.quiz-card {position:relative; height:150px;}
+.quiz-card .front, .quiz-card .back, .airport-card .front, .airport-card .back {
+  width:100%; border-radius:12px; height:150px; display:flex;
+  align-items:center; justify-content:center; backface-visibility:hidden;
+  font-weight:600; font-size:14px; position:absolute; top:0; left:0;
+  transition:transform 0.6s;
+}
+.quiz-card .back, .airport-card .back {background: rgba(79,195,255,0.2); color:#fff; transform:rotateY(180deg); padding:10px; text-align:center;}
+.quiz-card:hover .front {transform:rotateY(180deg);}
+.quiz-card:hover .back {transform:rotateY(0deg);}
+.airport-card:hover .front {transform:rotateY(180deg);}
+.airport-card:hover .back {transform:rotateY(0deg);}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media(max-width:1024px) {header{padding:0 4%;} nav{gap:15px;} h1{font-size:calc(22px + 1.2vw);} p{font-size:calc(13px + 0.4vw);}}
+@media(max-width:768px) {header{padding:0 3%;} nav{gap:12px;} h1{font-size:28px;} p{font-size:16px;}}
+@media(max-width:480px) {h1{font-size:24px;} p{font-size:14px;} nav button{min-width:60px; font-size:13px;}}
+.quiz-cards, .airport-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.quiz-card, .airport-card {
+  width: 100%;
+  max-width: 220px;
+  perspective: 1000px;
+}
+
+.quiz-card .front img, .airport-card .front img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+.quiz-card .back, .airport-card .back {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  border-radius: 12px;
+}
+.quiz-hint {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+/* Default: desktop / large screens */
+.quiz-cards, .airport-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+.quiz-card, .airport-card {
+  width: 220px;
+  perspective: 1000px;
+}
+
+/* Responsive for tablets and mobiles */
+@media (max-width: 1024px) { /* tablets */
+  .quiz-cards, .airport-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 600px) { /* mobiles */
+  .quiz-cards, .airport-cards {
+    grid-template-columns: 1fr; /* single column for small screens */
+    gap: 15px;
+  }
+}
+.quiz-hint {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  margin: 5px 0 15px 0; /* small top margin, bigger bottom margin */
+  display: block;
+}
+
+/* Desktop / large screens: flex row */
+.quiz-cards, .airport-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: nowrap;
+}
+
+/* Tablets and below: responsive grid */
+@media (max-width: 1024px) {
+  .quiz-cards, .airport-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .quiz-cards, .airport-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+.quiz-hint {
+  font-size: 14px;
+  color: var(--accent-2);
+  text-align: center;
+  margin: 5px 0 15px 0;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.quiz-hint:hover {
+  color: var(--accent);
+}
+.quiz-header, .airport-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers heading + hint */
+  margin-bottom: 20px; /* space below the header section */
+}
+
+.quiz-hint {
+  font-size: 14px;
+  color: var(--accent-2);
+  margin: 4px 0 0 0; /* minimal margin above, no large gap */
+  text-align: center;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.quiz-hint:hover {
+  color: var(--accent);
+}
+footer {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+  width: 100%;
+  padding: 20px 0;
+  background-color: var(--panel); /* match site theme */
+}
+
+footer .footer-copy {
+  color: var(--text);
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+}
